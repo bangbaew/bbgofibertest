@@ -1,0 +1,37 @@
+definitions:
+  models.Post:
+    properties:
+      desc:
+        type: string
+      published:
+        type: boolean
+      user:
+        type: string
+    type: object
+info:
+  contact:
+    email: fiber@swagger.io
+    name: API Support
+  description: This is a sample swagger for Fiber
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Fiber Example API
+  version: "1.0"
+paths:
+  /api/v1/users:
+    get:
+      description: Show all users in the database
+      responses: {}
+      summary: Show all users
+    post:
+      parameters:
+      - description: Account Info
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.Post'
+      responses: {}
+swagger: "2.0"
