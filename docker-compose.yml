@@ -7,15 +7,17 @@ services:
     working_dir: /root/app
     volumes:
       - gofiber:/root/app
+      - ./aliases.bashrc:/root/.bashrc
     ports:
       - 9090:3000
     tty: true
+    environment:
+      - TZ=Asia/Bangkok
     #restart: always
 
 volumes:
   gofiber:
-
-# Define synchronization and forwarding sessions
+ # Define synchronization and forwarding sessions
 x-mutagen:
   sync:
     defaults:

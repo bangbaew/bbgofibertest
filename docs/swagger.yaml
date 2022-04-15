@@ -1,11 +1,25 @@
 definitions:
-  models.Post:
+  models.User:
     properties:
+      address:
+        type: string
+      balance:
+        type: integer
+      bio:
+        type: string
       desc:
         type: string
-      published:
-        type: boolean
-      user:
+      email:
+        type: string
+      firstname:
+        type: string
+      lastname:
+        type: string
+      password:
+        type: string
+      pic_format:
+        type: string
+      tel:
         type: string
     type: object
 info:
@@ -32,6 +46,29 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/models.Post'
+          $ref: '#/definitions/models.User'
+      responses: {}
+  /api/v1/users/{id}:
+    delete:
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+    patch:
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Account Info
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
       responses: {}
 swagger: "2.0"

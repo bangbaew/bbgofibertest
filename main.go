@@ -58,6 +58,8 @@ func main() {
 	// Bind handlers
 	v1.Get("/users", handlers.UserList)
 	v1.Post("/users", handlers.UserCreate)
+	v1.Delete("/users/:id", handlers.UserDelete)
+	v1.Patch("/users/:id", handlers.UserUpdate)
 
 	// Setup static files
 	app.Static("/", "./static/public")

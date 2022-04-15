@@ -38,7 +38,42 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Post"
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/v1/users/{id}": {
+            "delete": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            },
+            "patch": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Account Info",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
                         }
                     }
                 ],
@@ -47,16 +82,37 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "models.Post": {
+        "models.User": {
             "type": "object",
             "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "balance": {
+                    "type": "integer"
+                },
+                "bio": {
+                    "type": "string"
+                },
                 "desc": {
                     "type": "string"
                 },
-                "published": {
-                    "type": "boolean"
+                "email": {
+                    "type": "string"
                 },
-                "user": {
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "pic_format": {
+                    "type": "string"
+                },
+                "tel": {
                     "type": "string"
                 }
             }

@@ -8,6 +8,8 @@ import (
 	"log"
 	"time"
 
+	//_ "time/tzdata"
+
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -30,23 +32,22 @@ func UserList(c *fiber.Ctx) error {
 	fmt.Println(users) */
 	log.Println(time.Now().Zone())
 	log.Println(time.Now())
-	log.Println(c)
 
-	posts, err := prisma.Client.Post.FindMany().Exec(prisma.Ctx)
+	users, err := prisma.Client.User.FindMany().Exec(prisma.Ctx)
 	if err != nil {
 		return err
 	}
 
-	PrintJSON(posts)
+	PrintJSON(users)
 
 	req := c.JSON(fiber.Map{
-		"user": posts,
+		"user": users,
 	})
 	return req
 }
 
 // UserCreate registers a user
-//@Param        data  body      models.Post  true  "Account Info"
+//@Param        data  body      models.User  true  "Account Info"
 // @Router /api/v1/users [post]
 func UserCreate(c *fiber.Ctx) error {
 
@@ -66,7 +67,7 @@ func UserCreate(c *fiber.Ctx) error {
 		return err
 	} */
 
-	var payload models.Post
+	var payload models.User
 
 	if err := c.BodyParser(&payload); err != nil {
 		return err
@@ -74,10 +75,17 @@ func UserCreate(c *fiber.Ctx) error {
 
 	PrintJSON(payload)
 
-	createdPost, err := prisma.Client.Post.CreateOne(
-		db.Post.Title.Set(payload.User),
-		db.Post.Published.Set(payload.Published),
-		db.Post.Desc.Set(payload.Desc),
+	createdPost, err := prisma.Client.User.CreateOne(
+		db.User.Firstname.Set(payload.Firstname),
+		db.User.Lastname.Set(payload.Lastname),
+		db.User.PicFormat.Set(payload.Pic_format),
+		db.User.Address.Set(payload.Address),
+		db.User.Tel.Set(payload.Tel),
+		db.User.Balance.Set(0),
+		db.User.Email.Set(payload.Email),
+		db.User.Password.Set(payload.Password),
+		db.User.Bio.Set(payload.Bio),
+		db.User.Desc.Set(payload.Desc),
 	).Exec(prisma.Ctx)
 	if err != nil {
 		return err
@@ -85,7 +93,47 @@ func UserCreate(c *fiber.Ctx) error {
 
 	PrintJSON(createdPost)
 
-	return c.JSON(fiber.Map{"name": createdPost.Title, "published": createdPost.Published, "desc": createdPost.Desc})
+	return c.JSON(createdPost)
+}
+
+// @Param id path string true "Account ID"
+// @Router /api/v1/users/{id} [delete]
+func UserDelete(c *fiber.Ctx) error {
+	deleted, err := prisma.Client.User.FindUnique(db.User.ID.Equals(c.Params("id"))).Delete().Exec(prisma.Ctx)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(deleted)
+}
+
+// @Param id path string true "Account ID"
+//@Param        data  body      models.User  true  "Account Info"
+// @Router /api/v1/users/{id} [patch]
+func UserUpdate(c *fiber.Ctx) error {
+	var payload models.User
+
+	if err := c.BodyParser(&payload); err != nil {
+		return err
+	}
+
+	updated, err := prisma.Client.User.FindUnique(db.User.ID.Equals(c.Params("id"))).Update(
+		db.User.Firstname.Set(payload.Firstname),
+		db.User.Lastname.Set(payload.Lastname),
+		db.User.PicFormat.Set(payload.Pic_format),
+		db.User.Address.Set(payload.Address),
+		db.User.Tel.Set(payload.Tel),
+		db.User.Balance.Set(0),
+		db.User.Email.Set(payload.Email),
+		db.User.Password.Set(payload.Password),
+		db.User.Bio.Set(payload.Bio),
+		db.User.Desc.Set(payload.Desc),
+	).Exec(prisma.Ctx)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(updated)
 }
 
 // NotFound returns custom 404 page
