@@ -43,9 +43,24 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {}
+            },
+            "delete": {
+                "responses": {}
             }
         },
         "/api/v1/users/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            },
             "delete": {
                 "parameters": [
                     {

@@ -8,6 +8,8 @@ import (
 	"log"
 	"time"
 
+	"golang.org/x/crypto/bcrypt"
+
 	//_ "time/tzdata"
 
 	"github.com/gofiber/fiber/v2"
@@ -40,10 +42,23 @@ func UserList(c *fiber.Ctx) error {
 
 	PrintJSON(users)
 
-	req := c.JSON(fiber.Map{
-		"user": users,
-	})
-	return req
+	return c.JSON(users)
+}
+
+// @Param id path string true "Account ID"
+// @Router /api/v1/users/{id} [get]
+func UserFind(c *fiber.Ctx) error {
+
+	user, err := prisma.Client.User.FindUnique(
+		db.User.ID.Equals(c.Params("id")),
+	).Exec(prisma.Ctx)
+	if err != nil {
+		return err
+	}
+
+	PrintJSON(user)
+
+	return c.JSON(user)
 }
 
 // UserCreate registers a user
@@ -75,6 +90,12 @@ func UserCreate(c *fiber.Ctx) error {
 
 	PrintJSON(payload)
 
+	password := []byte(payload.Password)
+	hashedPassword, err := bcrypt.GenerateFromPassword(password, bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+
 	createdPost, err := prisma.Client.User.CreateOne(
 		db.User.Firstname.Set(payload.Firstname),
 		db.User.Lastname.Set(payload.Lastname),
@@ -83,7 +104,7 @@ func UserCreate(c *fiber.Ctx) error {
 		db.User.Tel.Set(payload.Tel),
 		db.User.Balance.Set(0),
 		db.User.Email.Set(payload.Email),
-		db.User.Password.Set(payload.Password),
+		db.User.Password.Set(string(hashedPassword)),
 		db.User.Bio.Set(payload.Bio),
 		db.User.Desc.Set(payload.Desc),
 	).Exec(prisma.Ctx)
@@ -134,6 +155,16 @@ func UserUpdate(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(updated)
+}
+
+// @Router /api/v1/users [delete]
+func DeleteAll(c *fiber.Ctx) error {
+	deleted, err := prisma.Client.User.FindMany().Delete().Exec(prisma.Ctx)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(deleted)
 }
 
 // NotFound returns custom 404 page

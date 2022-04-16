@@ -57,9 +57,11 @@ func main() {
 	app.Get("/swagger/*", swagger.HandlerDefault) // default
 	// Bind handlers
 	v1.Get("/users", handlers.UserList)
+	v1.Get("/users/:id", handlers.UserFind)
 	v1.Post("/users", handlers.UserCreate)
 	v1.Delete("/users/:id", handlers.UserDelete)
 	v1.Patch("/users/:id", handlers.UserUpdate)
+	v1.Delete("/users", handlers.DeleteAll)
 
 	// Setup static files
 	app.Static("/", "./static/public")
