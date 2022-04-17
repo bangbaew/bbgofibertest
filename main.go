@@ -55,30 +55,7 @@ func main() {
 
 	// Create a /api/v1 endpoint
 	v1 := app.Group("/api/v1")
-	// Bind handlers
-	{
-		users := v1.Group("/users")
-		{
-			userHandler := handlers.UserHandler{}
-			users.Get("/", userHandler.List)
-			users.Get("/:id", userHandler.Find)
-			users.Post("/", userHandler.Create)
-			users.Delete("/:id", userHandler.Delete)
-			users.Patch("/:id", userHandler.Update)
-			users.Delete("/", userHandler.DeleteAll)
-		}
-
-		artisans := v1.Group("/artisans")
-		{
-			artisanHandler := handlers.ArtisanHandler{}
-			artisans.Get("/", artisanHandler.List)
-			artisans.Get("/:id", artisanHandler.Find)
-			artisans.Post("/", artisanHandler.Create)
-			artisans.Delete("/:id", artisanHandler.Delete)
-			artisans.Patch("/:id", artisanHandler.Update)
-			artisans.Delete("/", artisanHandler.DeleteAll)
-		}
-	}
+	Route(v1)
 
 	// Setup static files
 	app.Static("/", "./static/public")
@@ -141,3 +118,35 @@ func main() {
 
 	return nil
 } */
+
+func Route(r fiber.Router) {
+	// Bind handlers
+	RouteUsers(r)
+	RouteArtisans(r)
+}
+
+func RouteUsers(r fiber.Router) {
+	users := r.Group("/users")
+	{
+		userHandler := handlers.UserHandler{}
+		users.Get("/", userHandler.List)
+		users.Get("/:id", userHandler.Find)
+		users.Post("/", userHandler.Create)
+		users.Delete("/:id", userHandler.Delete)
+		users.Patch("/:id", userHandler.Update)
+		users.Delete("/", userHandler.DeleteAll)
+	}
+}
+
+func RouteArtisans(r fiber.Router) {
+	artisans := r.Group("/artisans")
+	{
+		artisanHandler := handlers.ArtisanHandler{}
+		artisans.Get("/", artisanHandler.List)
+		artisans.Get("/:id", artisanHandler.Find)
+		artisans.Post("/", artisanHandler.Create)
+		artisans.Delete("/:id", artisanHandler.Delete)
+		artisans.Patch("/:id", artisanHandler.Update)
+		artisans.Delete("/", artisanHandler.DeleteAll)
+	}
+}
