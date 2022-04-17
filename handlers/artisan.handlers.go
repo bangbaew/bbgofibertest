@@ -8,12 +8,14 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+type ArtisanHandler struct{}
+
 // @Summary Show all users
 // @Description Show all users in the database
 // @Tags Artisan
 // Param id path int true "Account ID"
 // @Router /api/v1/artisans [get]
-func ArtisanList(c *fiber.Ctx) error {
+func (ArtisanHandler) List(c *fiber.Ctx) error {
 
 	users, err := prisma.Client.Artisan.FindMany().Exec(prisma.Ctx)
 	if err != nil {
@@ -28,7 +30,7 @@ func ArtisanList(c *fiber.Ctx) error {
 // @Tags Artisan
 // @Param id path string true "Account ID"
 // @Router /api/v1/artisans/{id} [get]
-func ArtisanFind(c *fiber.Ctx) error {
+func (ArtisanHandler) Find(c *fiber.Ctx) error {
 
 	user, err := prisma.Client.Artisan.FindUnique(
 		db.Artisan.ID.Equals(c.Params("id")),
@@ -46,7 +48,7 @@ func ArtisanFind(c *fiber.Ctx) error {
 // UserCreate registers a user
 //@Param        data  body      models.Artisan  true  "Account Info"
 // @Router /api/v1/artisans [post]
-func ArtisanCreate(c *fiber.Ctx) error {
+func (ArtisanHandler) Create(c *fiber.Ctx) error {
 
 	var payload models.Artisan
 
@@ -75,7 +77,7 @@ func ArtisanCreate(c *fiber.Ctx) error {
 // @Tags Artisan
 // @Param id path string true "Account ID"
 // @Router /api/v1/artisans/{id} [delete]
-func ArtisanDelete(c *fiber.Ctx) error {
+func (ArtisanHandler) Delete(c *fiber.Ctx) error {
 	deleted, err := prisma.Client.Artisan.FindUnique(db.Artisan.ID.Equals(c.Params("id"))).Delete().Exec(prisma.Ctx)
 	if err != nil {
 		return err
@@ -88,7 +90,7 @@ func ArtisanDelete(c *fiber.Ctx) error {
 // @Param id path string true "Account ID"
 //@Param        data  body      models.Artisan  true  "Account Info"
 // @Router /api/v1/artisans/{id} [patch]
-func ArtisanUpdate(c *fiber.Ctx) error {
+func (ArtisanHandler) Update(c *fiber.Ctx) error {
 	var payload models.Artisan
 
 	if err := c.BodyParser(&payload); err != nil {
@@ -111,7 +113,7 @@ func ArtisanUpdate(c *fiber.Ctx) error {
 
 // @Tags Artisan
 // @Router /api/v1/artisans [delete]
-func DeleteAllArtisans(c *fiber.Ctx) error {
+func (ArtisanHandler) DeleteAll(c *fiber.Ctx) error {
 	deleted, err := prisma.Client.Artisan.FindMany().Delete().Exec(prisma.Ctx)
 	if err != nil {
 		return err

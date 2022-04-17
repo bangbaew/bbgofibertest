@@ -59,22 +59,24 @@ func main() {
 	{
 		users := v1.Group("/users")
 		{
-			users.Get("/", handlers.UserList)
-			users.Get("/:id", handlers.UserFind)
-			users.Post("/", handlers.UserCreate)
-			users.Delete("/:id", handlers.UserDelete)
-			users.Patch("/:id", handlers.UserUpdate)
-			users.Delete("/", handlers.DeleteAllUsers)
+			userHandler := handlers.UserHandler{}
+			users.Get("/", userHandler.List)
+			users.Get("/:id", userHandler.Find)
+			users.Post("/", userHandler.Create)
+			users.Delete("/:id", userHandler.Delete)
+			users.Patch("/:id", userHandler.Update)
+			users.Delete("/", userHandler.DeleteAll)
 		}
 
 		artisans := v1.Group("/artisans")
 		{
-			artisans.Get("/", handlers.ArtisanList)
-			artisans.Get("/:id", handlers.ArtisanFind)
-			artisans.Post("/", handlers.ArtisanCreate)
-			artisans.Delete("/:id", handlers.ArtisanDelete)
-			artisans.Patch("/:id", handlers.ArtisanUpdate)
-			artisans.Delete("/", handlers.DeleteAllArtisans)
+			artisanHandler := handlers.ArtisanHandler{}
+			artisans.Get("/", artisanHandler.List)
+			artisans.Get("/:id", artisanHandler.Find)
+			artisans.Post("/", artisanHandler.Create)
+			artisans.Delete("/:id", artisanHandler.Delete)
+			artisans.Patch("/:id", artisanHandler.Update)
+			artisans.Delete("/", artisanHandler.DeleteAll)
 		}
 	}
 

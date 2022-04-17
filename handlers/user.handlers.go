@@ -17,6 +17,8 @@ import (
 	users []database.Account
 ) */
 
+type UserHandler struct{}
+
 // UserGet returns a user
 // @Summary Show all users
 // @Description Show all users in the database
@@ -26,7 +28,7 @@ import (
 // Produce  json
 // Param id path int true "Account ID"
 // @Router /api/v1/users [get]
-func UserList(c *fiber.Ctx) error {
+func (UserHandler) List(c *fiber.Ctx) error {
 	//users := database.Get()
 	/* db.Find(&users)
 	fmt.Println(users) */
@@ -46,7 +48,7 @@ func UserList(c *fiber.Ctx) error {
 // @Tags User
 // @Param id path string true "Account ID"
 // @Router /api/v1/users/{id} [get]
-func UserFind(c *fiber.Ctx) error {
+func (UserHandler) Find(c *fiber.Ctx) error {
 
 	user, err := prisma.Client.User.FindUnique(
 		db.User.ID.Equals(c.Params("id")),
@@ -64,7 +66,7 @@ func UserFind(c *fiber.Ctx) error {
 // @Tags User
 //@Param        data  body      models.User  true  "Account Info"
 // @Router /api/v1/users [post]
-func UserCreate(c *fiber.Ctx) error {
+func (UserHandler) Create(c *fiber.Ctx) error {
 
 	//database.Insert(user)
 
@@ -119,7 +121,7 @@ func UserCreate(c *fiber.Ctx) error {
 // @Tags User
 // @Param id path string true "Account ID"
 // @Router /api/v1/users/{id} [delete]
-func UserDelete(c *fiber.Ctx) error {
+func (UserHandler) Delete(c *fiber.Ctx) error {
 	deleted, err := prisma.Client.User.FindUnique(db.User.ID.Equals(c.Params("id"))).Delete().Exec(prisma.Ctx)
 	if err != nil {
 		return err
@@ -132,7 +134,7 @@ func UserDelete(c *fiber.Ctx) error {
 // @Param id path string true "Account ID"
 //@Param        data  body      models.User  true  "Account Info"
 // @Router /api/v1/users/{id} [patch]
-func UserUpdate(c *fiber.Ctx) error {
+func (UserHandler) Update(c *fiber.Ctx) error {
 	var payload models.User
 
 	if err := c.BodyParser(&payload); err != nil {
@@ -159,7 +161,7 @@ func UserUpdate(c *fiber.Ctx) error {
 
 // @Tags User
 // @Router /api/v1/users [delete]
-func DeleteAllUsers(c *fiber.Ctx) error {
+func (UserHandler) DeleteAll(c *fiber.Ctx) error {
 	deleted, err := prisma.Client.User.FindMany().Delete().Exec(prisma.Ctx)
 	if err != nil {
 		return err
