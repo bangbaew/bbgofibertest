@@ -51,17 +51,32 @@ func main() {
 	app.Use(recover.New())
 	app.Use(logger.New())
 
+	app.Get("/swagger/*", swagger.HandlerDefault) // default
+
 	// Create a /api/v1 endpoint
 	v1 := app.Group("/api/v1")
-
-	app.Get("/swagger/*", swagger.HandlerDefault) // default
 	// Bind handlers
-	v1.Get("/users", handlers.UserList)
-	v1.Get("/users/:id", handlers.UserFind)
-	v1.Post("/users", handlers.UserCreate)
-	v1.Delete("/users/:id", handlers.UserDelete)
-	v1.Patch("/users/:id", handlers.UserUpdate)
-	v1.Delete("/users", handlers.DeleteAll)
+	{
+		users := v1.Group("/users")
+		{
+			users.Get("/", handlers.UserList)
+			users.Get("/:id", handlers.UserFind)
+			users.Post("/", handlers.UserCreate)
+			users.Delete("/:id", handlers.UserDelete)
+			users.Patch("/:id", handlers.UserUpdate)
+			users.Delete("/", handlers.DeleteAllUsers)
+		}
+
+		artisans := v1.Group("/artisans")
+		{
+			artisans.Get("/", handlers.ArtisanList)
+			artisans.Get("/:id", handlers.ArtisanFind)
+			artisans.Post("/", handlers.ArtisanCreate)
+			artisans.Delete("/:id", handlers.ArtisanDelete)
+			artisans.Patch("/:id", handlers.ArtisanUpdate)
+			artisans.Delete("/", handlers.DeleteAllArtisans)
+		}
+	}
 
 	// Setup static files
 	app.Static("/", "./static/public")

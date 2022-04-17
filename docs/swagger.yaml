@@ -1,4 +1,17 @@
 definitions:
+  models.Artisan:
+    properties:
+      clusterID:
+        type: string
+      firstname:
+        type: string
+      lastname:
+        type: string
+      picFormat:
+        type: string
+      tel:
+        type: string
+    type: object
   models.User:
     properties:
       address:
@@ -6,8 +19,6 @@ definitions:
       balance:
         type: integer
       bio:
-        type: string
-      desc:
         type: string
       email:
         type: string
@@ -17,7 +28,7 @@ definitions:
         type: string
       password:
         type: string
-      pic_format:
+      picFormat:
         type: string
       tel:
         type: string
@@ -34,13 +45,76 @@ info:
   title: Fiber Example API
   version: "1.0"
 paths:
-  /api/v1/users:
+  /api/v1/artisans:
     delete:
       responses: {}
+      tags:
+      - Artisan
     get:
       description: Show all users in the database
       responses: {}
       summary: Show all users
+      tags:
+      - Artisan
+    post:
+      parameters:
+      - description: Account Info
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.Artisan'
+      responses: {}
+      tags:
+      - Artisan
+  /api/v1/artisans/{id}:
+    delete:
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+      tags:
+      - Artisan
+    get:
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+      tags:
+      - Artisan
+    patch:
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Account Info
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.Artisan'
+      responses: {}
+      tags:
+      - Artisan
+  /api/v1/users:
+    delete:
+      responses: {}
+      tags:
+      - User
+    get:
+      description: Show all users in the database
+      responses: {}
+      summary: Show all users
+      tags:
+      - User
     post:
       parameters:
       - description: Account Info
@@ -50,6 +124,8 @@ paths:
         schema:
           $ref: '#/definitions/models.User'
       responses: {}
+      tags:
+      - User
   /api/v1/users/{id}:
     delete:
       parameters:
@@ -59,6 +135,8 @@ paths:
         required: true
         type: string
       responses: {}
+      tags:
+      - User
     get:
       parameters:
       - description: Account ID
@@ -67,6 +145,8 @@ paths:
         required: true
         type: string
       responses: {}
+      tags:
+      - User
     patch:
       parameters:
       - description: Account ID
@@ -81,4 +161,6 @@ paths:
         schema:
           $ref: '#/definitions/models.User'
       responses: {}
+      tags:
+      - User
 swagger: "2.0"

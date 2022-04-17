@@ -6,8 +6,9 @@ services:
     image: cosmtrek/air
     working_dir: /root/app
     volumes:
-      - gofiber:/root/app
+      - .:/root/app
       - ./aliases.bashrc:/root/.bashrc
+      - /root/app/tmp
     ports:
       - 9090:3000
     tty: true

@@ -24,13 +24,108 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/users": {
+        "/api/v1/artisans": {
             "get": {
                 "description": "Show all users in the database",
+                "tags": [
+                    "Artisan"
+                ],
                 "summary": "Show all users",
                 "responses": {}
             },
             "post": {
+                "tags": [
+                    "Artisan"
+                ],
+                "parameters": [
+                    {
+                        "description": "Account Info",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Artisan"
+                        }
+                    }
+                ],
+                "responses": {}
+            },
+            "delete": {
+                "tags": [
+                    "Artisan"
+                ],
+                "responses": {}
+            }
+        },
+        "/api/v1/artisans/{id}": {
+            "get": {
+                "tags": [
+                    "Artisan"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            },
+            "delete": {
+                "tags": [
+                    "Artisan"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            },
+            "patch": {
+                "tags": [
+                    "Artisan"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Account Info",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Artisan"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/v1/users": {
+            "get": {
+                "description": "Show all users in the database",
+                "tags": [
+                    "User"
+                ],
+                "summary": "Show all users",
+                "responses": {}
+            },
+            "post": {
+                "tags": [
+                    "User"
+                ],
                 "parameters": [
                     {
                         "description": "Account Info",
@@ -45,11 +140,17 @@ const docTemplate = `{
                 "responses": {}
             },
             "delete": {
+                "tags": [
+                    "User"
+                ],
                 "responses": {}
             }
         },
         "/api/v1/users/{id}": {
             "get": {
+                "tags": [
+                    "User"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -62,6 +163,9 @@ const docTemplate = `{
                 "responses": {}
             },
             "delete": {
+                "tags": [
+                    "User"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -74,6 +178,9 @@ const docTemplate = `{
                 "responses": {}
             },
             "patch": {
+                "tags": [
+                    "User"
+                ],
                 "parameters": [
                     {
                         "type": "string",
@@ -97,6 +204,26 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "models.Artisan": {
+            "type": "object",
+            "properties": {
+                "clusterID": {
+                    "type": "string"
+                },
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
+                    "type": "string"
+                },
+                "picFormat": {
+                    "type": "string"
+                },
+                "tel": {
+                    "type": "string"
+                }
+            }
+        },
         "models.User": {
             "type": "object",
             "properties": {
@@ -107,9 +234,6 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "bio": {
-                    "type": "string"
-                },
-                "desc": {
                     "type": "string"
                 },
                 "email": {
@@ -124,7 +248,7 @@ const docTemplate = `{
                 "password": {
                     "type": "string"
                 },
-                "pic_format": {
+                "picFormat": {
                     "type": "string"
                 },
                 "tel": {

@@ -7,22 +7,43 @@ datasource db {
 generator db {
     provider = "go run github.com/prisma/prisma-client-go"
     // set the output folder and package name
-    // output           = "./your-folder"
-    // package          = "yourpackagename"
+    // output           = "./db"
+    // package          = "db"
 }
 
-model user {
-    id         String   @id @default(cuid())
-    createdAt  DateTime @default(now())
-    updatedAt  DateTime @updatedAt
-    firstname  String
-    lastname   String
-    pic_format String
-    address    String
-    tel        String
-    balance    Int
-    bio        String?
-    email      String   @unique
-    password   String
-    desc       String?
+model User {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    Firstname String
+    Lastname  String
+    PicFormat String?
+    Address   String
+    Tel       String
+    Balance   Int
+    Bio       String?
+    Email     String   @unique
+    Password  String
+}
+
+model Artisan {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    Firstname String
+    Lastname  String
+    PicFormat String?
+    Tel       String?
+    cluster   Cluster  @relation(fields: [ClusterID], references: [id])
+    ClusterID String
+}
+
+model Cluster {
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    Name      String
+    Region    String
+    Grade     String
+    Artisan   Artisan[]
 }
