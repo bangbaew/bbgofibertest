@@ -32,8 +32,8 @@ func (UserHandler) List(c *fiber.Ctx) error {
 	//users := database.Get()
 	/* db.Find(&users)
 	fmt.Println(users) */
-	log.Println(time.Now().Zone())
-	log.Println(time.Now())
+	go log.Println(time.Now().Zone())
+	go log.Println(time.Now())
 
 	users, err := prisma.Client.User.FindMany().Exec(prisma.Ctx)
 	if err != nil {
