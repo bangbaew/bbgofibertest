@@ -6,7 +6,7 @@ import (
 )
 
 var (
+	Ctx    = context.Background()
 	Client = db.NewClient()
 	_      = Client.Prisma.Connect()
-	Ctx    = context.Background()
 )

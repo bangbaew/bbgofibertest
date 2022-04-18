@@ -8,6 +8,7 @@ services:
     volumes:
       - .:/root/app
       - ./aliases.bashrc:/root/.bashrc
+      - /root/app/prisma/db
       - /root/app/tmp
     ports:
       - 9090:3000

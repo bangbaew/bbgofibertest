@@ -119,34 +119,31 @@ func main() {
 	return nil
 } */
 
+type CRUD interface {
+	Create(*fiber.Ctx) error
+	Find(*fiber.Ctx) error
+	Update(*fiber.Ctx) error
+	Delete(*fiber.Ctx) error
+
+	FindAll(*fiber.Ctx) error
+	DeleteAll(*fiber.Ctx) error
+}
+
 func Route(r fiber.Router) {
 	// Bind handlers
-	RouteUsers(r)
-	RouteArtisans(r)
+	RouteCRUD(r, "/users", handlers.UserHandler{})
+	RouteCRUD(r, "/artisans", handlers.ArtisanHandler{})
 }
 
-func RouteUsers(r fiber.Router) {
-	users := r.Group("/users")
+func RouteCRUD(r fiber.Router, groupPath string, handler CRUD) {
+	group := r.Group(groupPath)
 	{
-		userHandler := handlers.UserHandler{}
-		users.Get("/", userHandler.List)
-		users.Get("/:id", userHandler.Find)
-		users.Post("/", userHandler.Create)
-		users.Delete("/:id", userHandler.Delete)
-		users.Patch("/:id", userHandler.Update)
-		users.Delete("/", userHandler.DeleteAll)
-	}
-}
+		group.Post("/", handler.Create)
+		group.Get("/:id", handler.Find)
+		group.Patch("/:id", handler.Update)
+		group.Delete("/:id", handler.Delete)
 
-func RouteArtisans(r fiber.Router) {
-	artisans := r.Group("/artisans")
-	{
-		artisanHandler := handlers.ArtisanHandler{}
-		artisans.Get("/", artisanHandler.List)
-		artisans.Get("/:id", artisanHandler.Find)
-		artisans.Post("/", artisanHandler.Create)
-		artisans.Delete("/:id", artisanHandler.Delete)
-		artisans.Patch("/:id", artisanHandler.Update)
-		artisans.Delete("/", artisanHandler.DeleteAll)
+		group.Get("/", handler.FindAll)
+		group.Delete("/", handler.DeleteAll)
 	}
 }

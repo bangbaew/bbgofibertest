@@ -28,7 +28,7 @@ type UserHandler struct{}
 // Produce  json
 // Param id path int true "Account ID"
 // @Router /api/v1/users [get]
-func (UserHandler) List(c *fiber.Ctx) error {
+func (UserHandler) FindAll(c *fiber.Ctx) error {
 	//users := database.Get()
 	/* db.Find(&users)
 	fmt.Println(users) */
