@@ -35,14 +35,14 @@ func (UserHandler) FindMany(c *fiber.Ctx) error {
 	go log.Println(time.Now().Zone())
 	go log.Println(time.Now())
 
-	users, err := prisma.Client.User.FindMany().Exec(prisma.Ctx)
+	result, err := prisma.Client.User.FindMany().Exec(prisma.Ctx)
 	if err != nil {
 		return err
 	}
 
-	PrintJSON(users)
+	PrintJSON(result)
 
-	return c.JSON(users)
+	return c.JSON(result)
 }
 
 // @Tags User
@@ -50,16 +50,16 @@ func (UserHandler) FindMany(c *fiber.Ctx) error {
 // @Router /api/v1/users/{id} [get]
 func (UserHandler) Find(c *fiber.Ctx) error {
 
-	user, err := prisma.Client.User.FindUnique(
+	result, err := prisma.Client.User.FindUnique(
 		db.User.ID.Equals(c.Params("id")),
 	).Exec(prisma.Ctx)
 	if err != nil {
 		return err
 	}
 
-	PrintJSON(user)
+	PrintJSON(result)
 
-	return c.JSON(user)
+	return c.JSON(result)
 }
 
 // UserCreate registers a user

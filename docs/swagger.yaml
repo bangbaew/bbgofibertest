@@ -12,6 +12,15 @@ definitions:
       tel:
         type: string
     type: object
+  models.Cluster:
+    properties:
+      grade:
+        type: string
+      name:
+        type: string
+      region:
+        type: string
+    type: object
   models.User:
     properties:
       address:
@@ -104,6 +113,65 @@ paths:
       responses: {}
       tags:
       - Artisan
+  /api/v1/clusters:
+    delete:
+      responses: {}
+      tags:
+      - Cluster
+    get:
+      description: Show all users in the database
+      responses: {}
+      summary: Show all users
+      tags:
+      - Cluster
+    post:
+      parameters:
+      - description: Account Info
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.Cluster'
+      responses: {}
+      tags:
+      - Cluster
+  /api/v1/clusters/{id}:
+    delete:
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+      tags:
+      - Cluster
+    get:
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses: {}
+      tags:
+      - Cluster
+    patch:
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Account Info
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.Cluster'
+      responses: {}
+      tags:
+      - Cluster
   /api/v1/users:
     delete:
       responses: {}

@@ -113,6 +113,95 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/api/v1/clusters": {
+            "get": {
+                "description": "Show all users in the database",
+                "tags": [
+                    "Cluster"
+                ],
+                "summary": "Show all users",
+                "responses": {}
+            },
+            "post": {
+                "tags": [
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "description": "Account Info",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Cluster"
+                        }
+                    }
+                ],
+                "responses": {}
+            },
+            "delete": {
+                "tags": [
+                    "Cluster"
+                ],
+                "responses": {}
+            }
+        },
+        "/api/v1/clusters/{id}": {
+            "get": {
+                "tags": [
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            },
+            "delete": {
+                "tags": [
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            },
+            "patch": {
+                "tags": [
+                    "Cluster"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Account Info",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Cluster"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/api/v1/users": {
             "get": {
                 "description": "Show all users in the database",
@@ -220,6 +309,20 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "tel": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Cluster": {
+            "type": "object",
+            "properties": {
+                "grade": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "region": {
                     "type": "string"
                 }
             }

@@ -17,14 +17,14 @@ type ArtisanHandler struct{}
 // @Router /api/v1/artisans [get]
 func (ArtisanHandler) FindMany(c *fiber.Ctx) error {
 
-	users, err := prisma.Client.Artisan.FindMany().Exec(prisma.Ctx)
+	result, err := prisma.Client.Artisan.FindMany().Exec(prisma.Ctx)
 	if err != nil {
 		return err
 	}
 
-	PrintJSON(users)
+	PrintJSON(result)
 
-	return c.JSON(users)
+	return c.JSON(result)
 }
 
 // @Tags Artisan
@@ -32,16 +32,16 @@ func (ArtisanHandler) FindMany(c *fiber.Ctx) error {
 // @Router /api/v1/artisans/{id} [get]
 func (ArtisanHandler) Find(c *fiber.Ctx) error {
 
-	user, err := prisma.Client.Artisan.FindUnique(
+	result, err := prisma.Client.Artisan.FindUnique(
 		db.Artisan.ID.Equals(c.Params("id")),
 	).Exec(prisma.Ctx)
 	if err != nil {
 		return err
 	}
 
-	PrintJSON(user)
+	PrintJSON(result)
 
-	return c.JSON(user)
+	return c.JSON(result)
 }
 
 // @Tags Artisan

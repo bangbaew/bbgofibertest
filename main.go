@@ -133,6 +133,7 @@ func Route(r fiber.Router) {
 	// Bind handlers
 	RouteCRUD(r, "/users", handlers.UserHandler{})
 	RouteCRUD(r, "/artisans", handlers.ArtisanHandler{})
+	RouteCRUD(r, "/clusters", handlers.ClusterHandler{})
 }
 
 func RouteCRUD(r fiber.Router, groupPath string, handler CRUD) {
