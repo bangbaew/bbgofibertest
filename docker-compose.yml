@@ -6,16 +6,15 @@ services:
     image: cosmtrek/air
     working_dir: /root/app
     volumes:
-      - .:/root/app
+      - gofiber:/root/app
       - ./aliases.bashrc:/root/.bashrc
-      - /root/app/prisma/db
-      - /root/app/tmp
+      - /go
     ports:
       - 9090:3000
     tty: true
     environment:
       - TZ=Asia/Bangkok
-    #restart: always
+    restart: always
 
 volumes:
   gofiber:
@@ -24,14 +23,17 @@ x-mutagen:
   sync:
     defaults:
       ignore:
-        vcs: true
+        vcs: false
         paths:
           - tmp
           - db
-          - .*
           - '*.command'
           - docker*
           - Dockerfile
+          - .DS_Store
+          - .dockerignore
     gofiber:
       alpha: .
       beta: volume://gofiber
+  sidecar:
+    restart: always

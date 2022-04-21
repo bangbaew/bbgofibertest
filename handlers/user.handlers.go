@@ -28,7 +28,7 @@ type UserHandler struct{}
 // Produce  json
 // Param id path int true "Account ID"
 // @Router /api/v1/users [get]
-func (UserHandler) FindAll(c *fiber.Ctx) error {
+func (UserHandler) FindMany(c *fiber.Ctx) error {
 	//users := database.Get()
 	/* db.Find(&users)
 	fmt.Println(users) */
@@ -161,7 +161,7 @@ func (UserHandler) Update(c *fiber.Ctx) error {
 
 // @Tags User
 // @Router /api/v1/users [delete]
-func (UserHandler) DeleteAll(c *fiber.Ctx) error {
+func (UserHandler) DeleteMany(c *fiber.Ctx) error {
 	deleted, err := prisma.Client.User.FindMany().Delete().Exec(prisma.Ctx)
 	if err != nil {
 		return err

@@ -125,8 +125,8 @@ type CRUD interface {
 	Update(*fiber.Ctx) error
 	Delete(*fiber.Ctx) error
 
-	FindAll(*fiber.Ctx) error
-	DeleteAll(*fiber.Ctx) error
+	FindMany(*fiber.Ctx) error
+	DeleteMany(*fiber.Ctx) error
 }
 
 func Route(r fiber.Router) {
@@ -143,7 +143,7 @@ func RouteCRUD(r fiber.Router, groupPath string, handler CRUD) {
 		group.Patch("/:id", handler.Update)
 		group.Delete("/:id", handler.Delete)
 
-		group.Get("/", handler.FindAll)
-		group.Delete("/", handler.DeleteAll)
+		group.Get("/", handler.FindMany)
+		group.Delete("/", handler.DeleteMany)
 	}
 }

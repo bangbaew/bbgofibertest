@@ -15,7 +15,7 @@ type ArtisanHandler struct{}
 // @Tags Artisan
 // Param id path int true "Account ID"
 // @Router /api/v1/artisans [get]
-func (ArtisanHandler) FindAll(c *fiber.Ctx) error {
+func (ArtisanHandler) FindMany(c *fiber.Ctx) error {
 
 	users, err := prisma.Client.Artisan.FindMany().Exec(prisma.Ctx)
 	if err != nil {
@@ -113,7 +113,7 @@ func (ArtisanHandler) Update(c *fiber.Ctx) error {
 
 // @Tags Artisan
 // @Router /api/v1/artisans [delete]
-func (ArtisanHandler) DeleteAll(c *fiber.Ctx) error {
+func (ArtisanHandler) DeleteMany(c *fiber.Ctx) error {
 	deleted, err := prisma.Client.Artisan.FindMany().Delete().Exec(prisma.Ctx)
 	if err != nil {
 		return err
