@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  gofiber:
+    container_name: gofiber
+    image: cosmtrek/air
+    working_dir: /root/app
+    volumes:
+      - ./aliases.bashrc:/root/.bashrc
+      - gofiber:/root/app
+      - gopath:/go
+    ports:
+      - 9090:3000
+    tty: true
+    environment:
+      - TZ=Asia/Bangkok
+    restart: always
+
+volumes:
+  gofiber:
+  gopath:
+
+ # Define synchronization and forwarding sessions
+x-mutagen:
+  sync:
+    defaults:
+      ignore:
+        vcs: false
+        paths:
+          - tmp
+          - db
+          - '*.command'
+          - docker*
+          - Dockerfile
+          - .DS_Store
+          - .dockerignore
+    gofiber:
+      alpha: .
+      beta: volume://gofiber
+  sidecar:
+    restart: always
