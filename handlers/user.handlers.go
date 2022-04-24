@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	prisma "boilerplate/database"
 	"boilerplate/models"
+	"boilerplate/prisma"
 	"boilerplate/prisma/db"
 	"log"
 	"time"
